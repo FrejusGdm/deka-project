@@ -48,13 +48,13 @@ export function Features() {
           className="text-center mb-16"
         >
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
-            What We're{" "}
+            What We&apos;re{" "}
             <span className="text-black font-extrabold">
               Building
             </span>
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            We're creating the missing layer for translation APIs. Here's what we're working on
+            We&apos;re creating the missing layer for translation APIs. Here&apos;s what we&apos;re working on
             to make multilingual development simple and fair.
           </p>
         </motion.div>
@@ -113,7 +113,7 @@ export function Features() {
               Want to follow our progress?
             </h3>
             <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
-              We're building in the open. Star our repository to get updates on development,
+              We&apos;re building in the open. Star our repository to get updates on development,
               contribute ideas, or just follow along as we create the future of translation APIs.
             </p>
             <a

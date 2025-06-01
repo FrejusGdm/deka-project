@@ -116,7 +116,7 @@ export function WhyDeka() {
             </span>
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Translation shouldn't be complicated. We've built the missing layer that makes 
+            Translation shouldn&apos;t be complicated. We&apos;ve built the missing layer that makes
             working with multiple translation providers simple, fair, and powerful.
           </p>
         </motion.div>
