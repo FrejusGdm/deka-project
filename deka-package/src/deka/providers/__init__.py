@@ -8,13 +8,15 @@ from .google import GoogleTranslateProvider
 from .deepl import DeepLProvider
 from .openai import OpenAIProvider
 from .anthropic import AnthropicProvider
+from .gemini import GeminiProvider
 
 # Registry of all available providers
 PROVIDERS: Dict[str, Type[BaseProvider]] = {
     'google': GoogleTranslateProvider,
-    'deepl': DeepLProvider, 
+    'deepl': DeepLProvider,
     'openai': OpenAIProvider,
     'anthropic': AnthropicProvider,
+    'google-gemini': GeminiProvider,
 }
 
 # Provider aliases for convenience
@@ -22,10 +24,8 @@ PROVIDER_ALIASES = {
     'google-translate': 'google',
     'gpt': 'openai',
     'chatgpt': 'openai',
-    'gpt-4': 'openai',
-    'gpt-3.5': 'openai',
     'claude': 'anthropic',
-    'claude-3': 'anthropic',
+    'gemini': 'google-gemini',
 }
 
 
@@ -74,15 +74,16 @@ def list_providers() -> List[Dict[str, str]]:
     return providers
 
 
-def create_provider_instance(provider_name: str) -> BaseProvider:
+def create_provider_instance(provider_name: str, model: str = None) -> BaseProvider:
     """
     Create an instance of a provider.
-    
+
     Args:
         provider_name: Name of the provider
-        
+        model: Optional model name
+
     Returns:
         Provider instance
     """
     provider_class = get_provider(provider_name)
-    return provider_class()
+    return provider_class(model=model)

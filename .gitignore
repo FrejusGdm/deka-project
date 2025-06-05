@@ -34,3 +34,17 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+.venv/
+
+md-files
+md-files/*
+unkey-fastapi-boilerplate/*
+deka-package/dist/*
+deka-project/backend
+deka-package/.pytest_cache/*
+
+_pycache__/
+*.pyc
+
+backend

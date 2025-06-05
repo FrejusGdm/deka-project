@@ -18,6 +18,7 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY")
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 DEEPL_API_KEY = os.getenv("DEEPL_API_KEY")
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
 def test_openai():
     """Test OpenAI provider."""
@@ -161,6 +162,88 @@ async def test_async():
         print(f"❌ Error type: {type(e).__name__}")
         return False
 
+def test_model_selection():
+    """Test model selection functionality."""
+    print("\n🎯 Testing Model Selection")
+    print("=" * 40)
+
+    try:
+        # Configure providers
+        deka.configure({
+            'openai_api_key': OPENAI_API_KEY,
+            'anthropic_api_key': ANTHROPIC_API_KEY
+        })
+
+        # Test OpenAI with different models
+        print("Testing OpenAI with gpt-4:")
+        result = deka.translate("Hello world", "french", provider="openai/gpt-4")
+        print(f"✅ Translation: {result.text}")
+        print(f"✅ Model used: {result.metadata.get('model', 'unknown')}")
+
+        print("\nTesting Anthropic with claude-3-5-sonnet:")
+        result = deka.translate("Hello world", "spanish", provider="anthropic/claude-3-5-sonnet-20241022")
+        print(f"✅ Translation: {result.text}")
+        print(f"✅ Model used: {result.metadata.get('model', 'unknown')}")
+
+        # Test model comparison
+        print("\nComparing different models:")
+        comparison = deka.compare(
+            text="Good evening",
+            target_language="italian",
+            providers=["openai/gpt-3.5-turbo", "openai/gpt-4", "anthropic/claude-3-5-sonnet-20241022"]
+        )
+
+        for result in comparison.results:
+            model = result.metadata.get('model', 'unknown')
+            print(f"  {result.provider} ({model}): {result.text}")
+
+        return True
+
+    except Exception as e:
+        print(f"❌ Model selection test failed: {e}")
+        print(f"❌ Error type: {type(e).__name__}")
+        return False
+
+def test_gemini():
+    """Test Gemini provider (if API key available)."""
+    print("\n🔮 Testing Gemini Provider")
+    print("=" * 40)
+
+    if not GEMINI_API_KEY or GEMINI_API_KEY == "your-gemini-api-key-here":
+        print("⚠️  Gemini API key not configured, skipping test")
+        return True  # Not a failure, just skipped
+
+    try:
+        # Configure Gemini
+        deka.configure({'gemini_api_key': GEMINI_API_KEY})
+
+        # Test simple translation
+        print("Testing: 'Hello world' → Japanese")
+        start_time = time.time()
+        result = deka.translate("Hello world", "japanese", provider="google-gemini")
+        end_time = time.time()
+
+        print(f"✅ Translation: {result.text}")
+        print(f"✅ Provider: {result.provider}")
+        print(f"✅ Model: {result.metadata.get('model', 'unknown')}")
+        print(f"✅ Response time: {end_time - start_time:.2f}s")
+
+        if result.metadata:
+            print(f"✅ Metadata: {result.metadata}")
+
+        # Test with specific model
+        print("\nTesting with gemini-2.0-flash:")
+        result = deka.translate("Good morning", "korean", provider="google-gemini/gemini-2.0-flash-001")
+        print(f"✅ Translation: {result.text}")
+        print(f"✅ Model: {result.metadata.get('model', 'unknown')}")
+
+        return True
+
+    except Exception as e:
+        print(f"❌ Gemini test failed: {e}")
+        print(f"❌ Error type: {type(e).__name__}")
+        return False
+
 def main():
     """Run all tests."""
     print("🧪 Deka Real API Testing")
@@ -183,6 +266,8 @@ def main():
     results.append(("OpenAI", test_openai()))
     results.append(("Anthropic", test_anthropic()))
     results.append(("Comparison", test_comparison()))
+    results.append(("Model Selection", test_model_selection()))
+    results.append(("Gemini", test_gemini()))
     
     # Test async
     try:

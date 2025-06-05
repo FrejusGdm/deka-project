@@ -15,10 +15,18 @@ from ..exceptions import ProviderError
 
 class OpenAIProvider(BaseProvider):
     """OpenAI ChatGPT provider for translation."""
-    
+
     display_name = "OpenAI ChatGPT"
     description = "OpenAI's ChatGPT models for high-quality translation"
     provider_type = "llm"
+    default_model = "gpt-3.5-turbo"
+    supported_models = [
+        "gpt-4",
+        "gpt-4-turbo",
+        "gpt-4o",
+        "gpt-3.5-turbo",
+        "gpt-4o-mini",
+    ]
     
     @property
     def provider_name(self) -> str:
@@ -54,7 +62,7 @@ class OpenAIProvider(BaseProvider):
         }
         
         data = {
-            'model': 'gpt-3.5-turbo',
+            'model': self.model,
             'messages': [
                 {
                     'role': 'system',
@@ -92,7 +100,7 @@ class OpenAIProvider(BaseProvider):
                 translated_text=translated_text,
                 request=request,
                 response_time_ms=response_time_ms,
-                model='gpt-3.5-turbo',
+                model=self.model,
                 prompt_tokens=usage.get('prompt_tokens'),
                 completion_tokens=usage.get('completion_tokens'),
                 total_tokens=usage.get('total_tokens')
@@ -119,7 +127,7 @@ class OpenAIProvider(BaseProvider):
         }
         
         data = {
-            'model': 'gpt-3.5-turbo',
+            'model': self.model,
             'messages': [
                 {
                     'role': 'system',
@@ -159,7 +167,7 @@ class OpenAIProvider(BaseProvider):
                     translated_text=translated_text,
                     request=request,
                     response_time_ms=response_time_ms,
-                    model='gpt-3.5-turbo',
+                    model=self.model,
                     prompt_tokens=usage.get('prompt_tokens'),
                     completion_tokens=usage.get('completion_tokens'),
                     total_tokens=usage.get('total_tokens')

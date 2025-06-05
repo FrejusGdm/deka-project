@@ -22,6 +22,7 @@ from .providers import list_providers
 from .language_mapper import list_languages, normalize_language
 from .models import TranslationRequest, TranslationResponse, ComparisonResult
 from .exceptions import DekaError, ProviderError, ConfigurationError, LanguageNotSupportedError
+from .utils import get_supported_models, resolve_provider_and_model
 
 # Main public API
 __all__ = [
@@ -40,6 +41,7 @@ __all__ = [
     "list_providers",
     "list_languages",
     "normalize_language",
+    "get_supported_models",
     
     # Models
     "TranslationRequest",

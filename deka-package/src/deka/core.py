@@ -9,6 +9,7 @@ from .providers import create_provider_instance, list_providers as get_available
 from .language_mapper import normalize_language
 from .config import list_configured_providers
 from .exceptions import DekaError, ConfigurationError
+from .utils import resolve_provider_and_model
 
 
 def translate(
@@ -43,23 +44,26 @@ def translate(
     if source_language:
         source_language = normalize_language(source_language)
     
-    # Determine provider
+    # Determine provider and model
     if not provider:
         configured = list_configured_providers()
         if not configured:
             raise ConfigurationError("No providers configured. Please run deka.configure() first.")
         provider = configured[0]  # Use first configured provider
-    
+
+    # Resolve provider and model
+    provider_name, model = resolve_provider_and_model(provider)
+
     # Create request
     request = TranslationRequest(
         text=text,
         target_language=target_language,
         source_language=source_language,
-        provider=provider
+        provider=provider_name
     )
-    
+
     # Get provider and translate
-    provider_instance = create_provider_instance(provider)
+    provider_instance = create_provider_instance(provider_name, model)
     return provider_instance.translate(request)
 
 
@@ -86,23 +90,26 @@ async def translate_async(
     if source_language:
         source_language = normalize_language(source_language)
     
-    # Determine provider
+    # Determine provider and model
     if not provider:
         configured = list_configured_providers()
         if not configured:
             raise ConfigurationError("No providers configured. Please run deka.configure() first.")
         provider = configured[0]
-    
+
+    # Resolve provider and model
+    provider_name, model = resolve_provider_and_model(provider)
+
     # Create request
     request = TranslationRequest(
         text=text,
         target_language=target_language,
         source_language=source_language,
-        provider=provider
+        provider=provider_name
     )
-    
+
     # Get provider and translate
-    provider_instance = create_provider_instance(provider)
+    provider_instance = create_provider_instance(provider_name, model)
     try:
         return await provider_instance.translate_async(request)
     finally:
@@ -155,10 +162,12 @@ def compare(
     # Translate with each provider
     results = []
     errors = []
-    
+
     for provider in providers:
         try:
-            provider_instance = create_provider_instance(provider)
+            # Resolve provider and model
+            provider_name, model = resolve_provider_and_model(provider)
+            provider_instance = create_provider_instance(provider_name, model)
             result = provider_instance.translate(request)
             results.append(result)
         except Exception as e:
@@ -210,7 +219,9 @@ async def compare_async(
     provider_instances = []
     for provider in providers:
         try:
-            instance = create_provider_instance(provider)
+            # Resolve provider and model
+            provider_name, model = resolve_provider_and_model(provider)
+            instance = create_provider_instance(provider_name, model)
             provider_instances.append((provider, instance))
         except Exception as e:
             # Skip providers that can't be created

@@ -3,7 +3,7 @@ Base provider class for all translation providers.
 """
 
 from abc import ABC, abstractmethod
-from typing import Optional, Dict, Any
+from typing import Optional, Dict, Any, List
 import time
 import asyncio
 import aiohttp
@@ -15,15 +15,26 @@ from ..config import get_api_key
 
 class BaseProvider(ABC):
     """Abstract base class for all translation providers."""
-    
+
     # Provider metadata (to be overridden by subclasses)
     display_name: str = "Unknown Provider"
     description: str = "A translation provider"
     provider_type: str = "api"  # 'api' or 'llm'
-    
-    def __init__(self):
+    default_model: Optional[str] = None  # Default model for this provider
+    supported_models: List[str] = []     # List of supported models
+
+    def __init__(self, model: Optional[str] = None):
+        self.model = model or self.default_model
         self.api_key: Optional[str] = None
         self._session: Optional[aiohttp.ClientSession] = None
+
+        # Validate model if provider supports models
+        if self.supported_models and self.model:
+            if self.model not in self.supported_models:
+                raise ValueError(
+                    f"Model '{self.model}' not supported by {self.provider_name}. "
+                    f"Supported models: {', '.join(self.supported_models)}"
+                )
     
     @property
     @abstractmethod

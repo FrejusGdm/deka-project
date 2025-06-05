@@ -15,10 +15,18 @@ from ..exceptions import ProviderError
 
 class AnthropicProvider(BaseProvider):
     """Anthropic Claude provider for translation."""
-    
+
     display_name = "Anthropic Claude"
     description = "Anthropic's Claude models for nuanced translation"
     provider_type = "llm"
+    default_model = "claude-3-5-sonnet-20241022"
+    supported_models = [
+        "claude-3-5-sonnet-20241022",
+        "claude-3-5-sonnet-20240620",
+        "claude-3-sonnet-20240229",
+        "claude-3-haiku-20240307",
+        "claude-3-opus-20240229",
+    ]
     
     @property
     def provider_name(self) -> str:
@@ -55,7 +63,7 @@ class AnthropicProvider(BaseProvider):
         }
         
         data = {
-            'model': 'claude-3-sonnet-20240229',
+            'model': self.model,
             'max_tokens': len(request.text) * 3,  # Rough estimate for translation length
             'messages': [
                 {
@@ -89,7 +97,7 @@ class AnthropicProvider(BaseProvider):
                 translated_text=translated_text,
                 request=request,
                 response_time_ms=response_time_ms,
-                model='claude-3-sonnet',
+                model=self.model,
                 input_tokens=usage.get('input_tokens'),
                 output_tokens=usage.get('output_tokens')
             )
@@ -116,7 +124,7 @@ class AnthropicProvider(BaseProvider):
         }
         
         data = {
-            'model': 'claude-3-sonnet-20240229',
+            'model': self.model,
             'max_tokens': len(request.text) * 3,
             'messages': [
                 {
@@ -152,7 +160,7 @@ class AnthropicProvider(BaseProvider):
                     translated_text=translated_text,
                     request=request,
                     response_time_ms=response_time_ms,
-                    model='claude-3-sonnet',
+                    model=self.model,
                     input_tokens=usage.get('input_tokens'),
                     output_tokens=usage.get('output_tokens')
                 )
