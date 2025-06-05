@@ -1,0 +1,22 @@
+# Read the Docs configuration file for Deka
+# See https://docs.readthedocs.io/en/stable/config-file/v2.html for details
+
+# Required
+version: 2
+
+# Set the OS, Python version and other tools you might need
+build:
+  os: ubuntu-22.04
+  tools:
+    python: "3.11"
+
+# Build documentation with MkDocs (located in deka-package folder)
+mkdocs:
+  configuration: deka-package/mkdocs.yml
+
+# Optionally declare the Python requirements required to build your documentation
+python:
+  install:
+    - requirements: deka-package/docs/requirements.txt
+    - method: pip
+      path: deka-package/
