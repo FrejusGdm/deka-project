@@ -56,7 +56,7 @@ export function HeroOptionC() {*/
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
-import { ArrowRight, Terminal, CheckCircle, Github } from "lucide-react";
+import { Terminal, CheckCircle, Github } from "lucide-react";
 
 const codeSteps = [
   "$ pip install deka",
@@ -72,7 +72,7 @@ const codeSteps = [
   "# Compare AI models vs African languages",
   "comparison = deka.compare(",
   "    'Hello, how are you?',",
-  "    'french',",
+  "    'twi',",
   "    providers=['openai/gpt-4', 'ghananlp']",
   ")",
   "",
@@ -83,7 +83,7 @@ const codeSteps = [
 const results = [
   {
     provider: "OpenAI GPT-4",
-    result: "Bonjour, comment vous portez-vous ?",
+    result: "Akwaaba, wo ho te sɛn?",
     speed: "1.9s",
     icon: "🤖"
   },
@@ -126,7 +126,7 @@ export function HeroOptionC() {
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-6">
               The Only Translation SDK{" "}
               <span className="text-black font-extrabold">
-                You'll Ever Need
+                You&apos;ll Ever Need
               </span>
             </h1>
             <p className="text-xl text-gray-600 max-w-4xl mx-auto">
@@ -238,7 +238,7 @@ export function HeroOptionC() {
                     </div>
 
                     <div className="text-gray-700 font-medium">
-                      "{result.result}"
+                      &quot;{result.result}&quot;
                     </div>
                   </Card>
                 </motion.div>
