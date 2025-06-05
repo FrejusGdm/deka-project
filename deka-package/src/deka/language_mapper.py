@@ -62,6 +62,16 @@ ISO_TO_NAME = {
     'ha': 'hausa',
     'ig': 'igbo',
     'am': 'amharic',
+    # GhanaNLP supported languages
+    'tw': 'twi',
+    'gaa': 'ga',  # Ga language (Ghana) - different from 'ga' (Irish)
+    'ee': 'ewe',
+    'fat': 'fante',
+    'dag': 'dagbani',
+    'gur': 'gurene',
+    'ki': 'kikuyu',
+    'luo': 'luo',
+    'mer': 'kimeru',
     'or': 'oriya',
     'bn': 'bengali',
     'gu': 'gujarati',
@@ -108,6 +118,9 @@ LANGUAGE_ALIASES = {
     'hindi': ['हिन्दी'],
     'filipino': ['tagalog'],
     'myanmar': ['burmese'],
+    # African languages - add explicit aliases to avoid confusion
+    'ga': ['ga language', 'ga (ghana)', 'ga people'],  # Ga language from Ghana
+    'irish': ['irish gaelic', 'gaeilge'],  # Irish language
 }
 
 # Provider-specific language code mappings

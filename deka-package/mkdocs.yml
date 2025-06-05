@@ -1,0 +1,93 @@
+site_name: Deka Documentation
+site_description: A unified Python SDK for multiple translation providers
+site_url: https://deka.readthedocs.io
+repo_url: https://github.com/FrejusGdm/deka-project
+repo_name: FrejusGdm/deka-project
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: blue
+      accent: blue
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: blue
+      accent: blue
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.highlight
+    - search.share
+    - content.code.copy
+
+nav:
+  - Home: index.md
+  - Getting Started:
+    - Installation: getting-started/installation.md
+    - Quick Start: getting-started/quick-start.md
+    - Configuration: getting-started/configuration.md
+  - Providers:
+    - Overview: providers/overview.md
+    - Google Translate: providers/google.md
+    - DeepL: providers/deepl.md
+    - OpenAI: providers/openai.md
+    - Anthropic: providers/anthropic.md
+    - Gemini: providers/gemini.md
+    - GhanaNLP: providers/ghananlp.md
+  - Features:
+    - Model Selection: features/model-selection.md
+    - African Languages: features/african-languages.md
+    - Async Support: features/async.md
+    - Comparison: features/comparison.md
+  - API Reference:
+    - Core Functions: api/core.md
+    - Models: api/models.md
+    - Providers: api/providers.md
+    - Utilities: api/utils.md
+  - Examples:
+    - Basic Usage: examples/basic.md
+    - Advanced Usage: examples/advanced.md
+    - African Languages: examples/african.md
+  - Contributing: contributing.md
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            docstring_style: google
+            show_source: true
+            show_root_heading: true
+            show_root_toc_entry: false
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.tabbed:
+      alternate_style: true
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/FrejusGdm/deka-project
+    - icon: fontawesome/brands/python
+      link: https://pypi.org/project/deka/

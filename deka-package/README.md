@@ -1,15 +1,18 @@
 # Deka 🌍
 
-A unified Python SDK for multiple translation providers. Compare translations from Google Translate, DeepL, OpenAI, and more with a single, simple interface.
+A unified Python SDK for multiple translation providers with advanced model selection and African language support. Compare translations from Google Translate, DeepL, OpenAI, Anthropic, Gemini, and GhanaNLP with a single, simple interface.
 
 ## ✨ Features
 
-- **Unified Interface**: One API for multiple translation providers
-- **Provider Comparison**: Compare translations side-by-side
-- **Language Normalization**: Use natural language names ("french") or ISO codes ("fr")
-- **Async Support**: Full async/await support for better performance
-- **Type Safety**: Complete type hints for better development experience
-- **Bring Your Own Keys**: Use your own API keys, no vendor lock-in
+- **🎯 Model Selection**: Choose specific AI models (gpt-4, claude-3-5-sonnet, gemini-2.0-flash)
+- **🌍 African Languages**: Dedicated support for 11 African languages via GhanaNLP
+- **🔄 Provider Comparison**: Compare translations side-by-side across providers and models
+- **🚀 6 Providers**: Google Translate, DeepL, OpenAI, Anthropic, Gemini, GhanaNLP
+- **📝 Language Normalization**: Use natural language names ("french") or ISO codes ("fr")
+- **⚡ Async Support**: Full async/await support for better performance
+- **🔒 Type Safety**: Complete type hints for better development experience
+- **🔑 Bring Your Own Keys**: Use your own API keys, no vendor lock-in
+- **⚠️ Permissive Validation**: Try new models without SDK updates
 
 ## 🚀 Quick Start
 
@@ -29,18 +32,31 @@ deka.configure({
     'google_api_key': 'your-google-key',
     'deepl_api_key': 'your-deepl-key',
     'openai_api_key': 'your-openai-key',
+    'anthropic_api_key': 'your-anthropic-key',
+    'gemini_api_key': 'your-gemini-key',
+    'ghananlp_api_key': 'your-ghananlp-key',
 })
 
 # Simple translation
 result = deka.translate("Hello world", "french", provider="google")
 print(result.text)  # "Bonjour le monde"
 
-# Compare multiple providers
-comparison = deka.compare("Hello world", "spanish", providers=["google", "deepl"])
+# Model selection - choose specific AI models
+result = deka.translate("Hello", "spanish", provider="openai/gpt-4")
+print(result.text)  # "Hola"
+
+# African languages with GhanaNLP
+result = deka.translate("Thank you", "twi", provider="ghananlp")
+print(result.text)  # "Meda wo ase"
+
+# Compare multiple providers and models
+comparison = deka.compare("Hello world", "spanish", providers=[
+    "google",
+    "openai/gpt-4",
+    "anthropic/claude-3-5-sonnet"
+])
 for result in comparison.results:
     print(f"{result.provider}: {result.text}")
-# google: Hola mundo
-# deepl: Hola mundo
 ```
 
 ### Async Usage
@@ -66,12 +82,38 @@ asyncio.run(main())
 
 ## 🔧 Supported Providers
 
-| Provider | Type | Languages | Features |
-|----------|------|-----------|----------|
-| **Google Translate** | API | 100+ | Fast, reliable, auto-detection |
-| **DeepL** | API | 30+ | High quality, European languages |
-| **OpenAI** | LLM | Any | Context-aware, creative translations |
-| **Anthropic Claude** | LLM | Any | Nuanced, culturally-aware translations |
+| Provider | Type | Languages | Models | Features |
+|----------|------|-----------|--------|----------|
+| **Google Translate** | API | 100+ | - | Fast, reliable, auto-detection |
+| **DeepL** | API | 30+ | - | High quality, European languages |
+| **OpenAI** | LLM | Any | 5 models | Context-aware, creative translations |
+| **Anthropic Claude** | LLM | Any | 5 models | Nuanced, culturally-aware translations |
+| **Google Gemini** | LLM | Any | 5 models | Latest Google AI, multimodal |
+| **GhanaNLP** | API | 11 African | - | Specialized African languages |
+
+### 🤖 Available Models
+
+#### OpenAI Models:
+- `gpt-4` - Most capable, slower
+- `gpt-4-turbo` - Faster than gpt-4
+- `gpt-4o` - Optimized for speed and cost
+- `gpt-3.5-turbo` - Fast, cheap (default)
+- `gpt-4o-mini` - Smallest, fastest
+
+#### Anthropic Models:
+- `claude-3-5-sonnet-20241022` - Latest, most capable (default)
+- `claude-3-sonnet-20240229` - Balanced performance
+- `claude-3-haiku-20240307` - Fastest, cheapest
+- `claude-3-opus-20240229` - Most capable (older)
+
+#### Gemini Models:
+- `gemini-2.0-flash-001` - Latest, fastest (default)
+- `gemini-1.5-pro` - High capability, longer context
+- `gemini-1.5-flash` - Fast, efficient
+
+#### GhanaNLP Languages:
+- **Ghanaian**: Twi, Ga, Ewe, Fante, Dagbani, Gurene
+- **Other African**: Yoruba, Kikuyu, Luo, Kimeru
 
 ## 📖 Documentation
 
@@ -102,10 +144,30 @@ result = deka.translate(
     provider="google"
 )
 
+# Model selection - choose specific AI models
+result = deka.translate(
+    text="Hello world",
+    target_language="french",
+    provider="openai/gpt-4"  # Use GPT-4 specifically
+)
+
+result = deka.translate(
+    text="Hello world",
+    target_language="french",
+    provider="anthropic/claude-3-5-sonnet-20241022"  # Use latest Claude
+)
+
+# African languages with GhanaNLP
+result = deka.translate(
+    text="Good morning",
+    target_language="twi",  # Ghanaian language
+    provider="ghananlp"
+)
+
 # With source language specified
 result = deka.translate(
     text="Bonjour",
-    target_language="english", 
+    target_language="english",
     source_language="french",
     provider="deepl"
 )
@@ -168,8 +230,18 @@ providers = deka.list_providers()
 
 ### Anthropic
 1. Sign up at [Anthropic](https://console.anthropic.com/)
-2. Go to API Keys section  
+2. Go to API Keys section
 3. Create a new API key
+
+### Google Gemini
+1. Go to [Google AI Studio](https://aistudio.google.com/)
+2. Create a new API key
+3. Note: Different from Google Translate API
+
+### GhanaNLP
+1. Visit [GhanaNLP Translation API](https://translation.ghananlp.org/)
+2. Sign up for an API key
+3. Specialized for African languages
 
 ## 🎯 Use Cases
 
@@ -189,11 +261,11 @@ MIT License - see [LICENSE](LICENSE) file for details.
 
 ## 🔗 Links
 
-- [GitHub Repository](https://github.com/josuegodeme/deka)
+- [GitHub Repository](https://github.com/FrejusGdm/deka-project)
 - [Documentation](https://deka.readthedocs.io)
 - [PyPI Package](https://pypi.org/project/deka/)
 - [Issue Tracker](https://github.com/josuegodeme/deka/issues)
 
 ---
 
-Made with ❤️ by [Josue Godeme](https://github.com/josuegodeme)
+Made with ❤️ by [Josue Godeme](https://github.com/FrejusGdm)

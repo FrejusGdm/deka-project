@@ -1,0 +1,205 @@
+---
+title: Introduction
+description: 'A unified Python SDK for multiple translation providers with advanced model selection and African language support'
+---
+
+<img
+  className="block dark:hidden"
+  src="/images/hero-light.svg"
+  alt="Hero Light"
+/>
+<img
+  className="hidden dark:block"
+  src="/images/hero-dark.svg"
+  alt="Hero Dark"
+/>
+
+## Welcome to Deka 🌍
+
+Deka is a unified Python SDK that provides a single, simple interface to work with multiple translation providers. Compare translations, choose specific AI models, and access specialized African language support.
+
+<CardGroup cols={2}>
+  <Card
+    title="🎯 Model Selection"
+    icon="bullseye"
+    href="/features/model-selection"
+  >
+    Choose specific AI models like GPT-4, Claude 3.5 Sonnet, or Gemini 2.0 Flash
+  </Card>
+  <Card
+    title="🌍 African Languages"
+    icon="globe-africa"
+    href="/features/african-languages"
+  >
+    Dedicated support for 11 African languages via GhanaNLP integration
+  </Card>
+  <Card
+    title="🔄 Provider Comparison"
+    icon="arrows-rotate"
+    href="/features/comparison"
+  >
+    Compare translations across multiple providers and models side-by-side
+  </Card>
+  <Card
+    title="⚡ Async Support"
+    icon="bolt"
+    href="/features/async-support"
+  >
+    Full async/await support for better performance and concurrent execution
+  </Card>
+</CardGroup>
+
+## Quick Start
+
+Get started with Deka in just a few lines of code:
+
+<CodeGroup>
+
+```python Basic Translation
+import deka
+
+# Configure with your API keys
+deka.configure({
+    'openai_api_key': 'your-openai-key',
+    'ghananlp_api_key': 'your-ghananlp-key'
+})
+
+# Simple translation
+result = deka.translate("Hello world", "french")
+print(result.text)  # "Bonjour le monde"
+```
+
+```python Model Selection
+import deka
+
+# Choose specific AI models
+result = deka.translate(
+    "Hello world", 
+    "spanish", 
+    provider="openai/gpt-4"
+)
+print(result.text)  # "Hola mundo"
+print(result.metadata['model'])  # "gpt-4"
+```
+
+```python African Languages
+import deka
+
+# Translate to African languages
+result = deka.translate(
+    "Thank you", 
+    "twi",  # Ghanaian language
+    provider="ghananlp"
+)
+print(result.text)  # "Meda wo ase"
+```
+
+```python Provider Comparison
+import deka
+
+# Compare multiple providers
+comparison = deka.compare("Hello", "spanish", providers=[
+    "google",
+    "openai/gpt-4", 
+    "anthropic/claude-3-5-sonnet"
+])
+
+for result in comparison.results:
+    print(f"{result.provider}: {result.text}")
+```
+
+</CodeGroup>
+
+## Supported Providers
+
+<CardGroup cols={3}>
+  <Card title="Google Translate" icon="google" href="/providers/google-translate">
+    100+ languages, fast and reliable
+  </Card>
+  <Card title="DeepL" icon="language" href="/providers/deepl">
+    High quality, European languages
+  </Card>
+  <Card title="OpenAI" icon="openai" href="/providers/openai">
+    5 AI models, context-aware translations
+  </Card>
+  <Card title="Anthropic" icon="anthropic" href="/providers/anthropic">
+    5 Claude models, nuanced translations
+  </Card>
+  <Card title="Google Gemini" icon="google" href="/providers/gemini">
+    5 Gemini models, latest Google AI
+  </Card>
+  <Card title="GhanaNLP" icon="globe-africa" href="/providers/ghananlp">
+    11 African languages, cultural accuracy
+  </Card>
+</CardGroup>
+
+## Why Choose Deka?
+
+<AccordionGroup>
+  <Accordion title="🎯 First SDK with Model Selection">
+    No other translation library lets you choose specific AI models. With Deka, you can optimize for speed (gpt-3.5-turbo), quality (gpt-4), or cost (claude-haiku).
+  </Accordion>
+
+  <Accordion title="🌍 Dedicated African Language Support">
+    Built-in integration with GhanaNLP provides authentic translations for Ghanaian and other African languages that other providers don't support well.
+  </Accordion>
+
+  <Accordion title="⚠️ Future-Proof Design">
+    Permissive model validation means you can try new models as soon as providers release them, without waiting for SDK updates.
+  </Accordion>
+
+  <Accordion title="🔄 Professional Comparison Tools">
+    Compare quality, speed, and cost across different providers and models to find the best solution for your use case.
+  </Accordion>
+</AccordionGroup>
+
+## Installation
+
+<CodeGroup>
+
+```bash pip
+pip install deka
+```
+
+```bash poetry
+poetry add deka
+```
+
+```bash conda
+conda install -c conda-forge deka
+```
+
+</CodeGroup>
+
+## What's Next?
+
+<CardGroup cols={2}>
+  <Card
+    title="Quick Start Guide"
+    icon="play"
+    href="/quickstart"
+  >
+    Get up and running with Deka in 5 minutes
+  </Card>
+  <Card
+    title="API Reference"
+    icon="code"
+    href="/api-reference"
+  >
+    Explore the complete API documentation
+  </Card>
+  <Card
+    title="Provider Setup"
+    icon="gear"
+    href="/providers/overview"
+  >
+    Learn how to configure each translation provider
+  </Card>
+  <Card
+    title="Examples"
+    icon="lightbulb"
+    href="/examples"
+  >
+    See real-world examples and use cases
+  </Card>
+</CardGroup>

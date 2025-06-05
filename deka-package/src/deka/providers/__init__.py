@@ -9,6 +9,7 @@ from .deepl import DeepLProvider
 from .openai import OpenAIProvider
 from .anthropic import AnthropicProvider
 from .gemini import GeminiProvider
+from .ghananlp import GhanaNLPProvider
 
 # Registry of all available providers
 PROVIDERS: Dict[str, Type[BaseProvider]] = {
@@ -17,6 +18,7 @@ PROVIDERS: Dict[str, Type[BaseProvider]] = {
     'openai': OpenAIProvider,
     'anthropic': AnthropicProvider,
     'google-gemini': GeminiProvider,
+    'ghananlp': GhanaNLPProvider,
 }
 
 # Provider aliases for convenience
@@ -26,6 +28,8 @@ PROVIDER_ALIASES = {
     'chatgpt': 'openai',
     'claude': 'anthropic',
     'gemini': 'google-gemini',
+    'ghana': 'ghananlp',
+    'ghana-nlp': 'ghananlp',
 }
 
 

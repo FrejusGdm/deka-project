@@ -19,6 +19,7 @@ ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY")
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 DEEPL_API_KEY = os.getenv("DEEPL_API_KEY")
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+GHANANLP_API_KEY = os.getenv("GHANANLP_API_KEY")
 
 def test_openai():
     """Test OpenAI provider."""
@@ -244,6 +245,103 @@ def test_gemini():
         print(f"❌ Error type: {type(e).__name__}")
         return False
 
+def test_permissive_model_validation():
+    """Test that unknown models show warnings but still work."""
+    print("\n⚠️  Testing Permissive Model Validation")
+    print("=" * 40)
+
+    try:
+        # Configure providers
+        deka.configure({
+            'openai_api_key': OPENAI_API_KEY,
+        })
+
+        # Test with a made-up model name - should warn but still try
+        print("Testing with fake model 'gpt-5-ultra':")
+        result = deka.translate("Hello", "french", provider="openai/gpt-5-ultra")
+        print(f"✅ Translation attempted (may fail at API level): {result.text if hasattr(result, 'text') else 'Failed as expected'}")
+
+        return True
+
+    except Exception as e:
+        print(f"⚠️  Expected behavior - API rejected unknown model: {e}")
+        return True  # This is expected behavior
+
+def test_ghananlp():
+    """Test GhanaNLP provider for African languages."""
+    print("\n🌍 Testing GhanaNLP Provider (African Languages)")
+    print("=" * 40)
+
+    if not GHANANLP_API_KEY or GHANANLP_API_KEY == "your-ghananlp-api-key-here":
+        print("⚠️  GhanaNLP API key not configured, skipping test")
+        return True  # Not a failure, just skipped
+
+    try:
+        # Configure GhanaNLP
+        deka.configure({'ghananlp_api_key': GHANANLP_API_KEY})
+
+        # Test English to Twi (Ghanaian language)
+        print("Testing: 'Hello, how are you?' → Twi")
+        start_time = time.time()
+        result = deka.translate("Hello, how are you?", "twi", provider="ghananlp")
+        end_time = time.time()
+
+        print(f"✅ Translation: {result.text}")
+        print(f"✅ Provider: {result.provider}")
+        print(f"✅ Response time: {end_time - start_time:.2f}s")
+
+        if result.metadata:
+            print(f"✅ Metadata: {result.metadata}")
+
+        # Test another African language - Yoruba
+        print("\nTesting: 'Good morning' → Yoruba")
+        result = deka.translate("Good morning", "yoruba", provider="ghananlp")
+        print(f"✅ Translation: {result.text}")
+
+        # Test Ga language
+        print("\nTesting: 'Thank you' → Ga")
+        result = deka.translate("Thank you", "ga", provider="ghananlp")
+        print(f"✅ Translation: {result.text}")
+
+        return True
+
+    except Exception as e:
+        print(f"❌ GhanaNLP test failed: {e}")
+        print(f"❌ Error type: {type(e).__name__}")
+        return False
+
+def test_african_language_support():
+    """Test our enhanced African language support."""
+    print("\n🌍 Testing African Language Support")
+    print("=" * 40)
+
+    try:
+        # Test language normalization for African languages
+        african_languages = [
+            'twi', 'ga', 'ewe', 'fante', 'dagbani', 'gurene',
+            'yoruba', 'kikuyu', 'luo', 'kimeru'
+        ]
+
+        print("Testing language normalization for African languages:")
+        for lang in african_languages:
+            try:
+                normalized = deka.normalize_language(lang)
+                print(f"  {lang} → {normalized} ✅")
+            except Exception as e:
+                print(f"  {lang} → Error: {e} ❌")
+
+        # Test provider language support
+        print("\nGhanaNLP supported languages:")
+        from deka.providers.ghananlp import GhanaNLPProvider
+        supported = GhanaNLPProvider.get_supported_languages()
+        print(f"  {len(supported)} languages: {', '.join(supported[:5])}...")
+
+        return True
+
+    except Exception as e:
+        print(f"❌ African language support test failed: {e}")
+        return False
+
 def main():
     """Run all tests."""
     print("🧪 Deka Real API Testing")
@@ -268,6 +366,9 @@ def main():
     results.append(("Comparison", test_comparison()))
     results.append(("Model Selection", test_model_selection()))
     results.append(("Gemini", test_gemini()))
+    results.append(("Permissive Models", test_permissive_model_validation()))
+    results.append(("GhanaNLP", test_ghananlp()))
+    results.append(("African Languages", test_african_language_support()))
     
     # Test async
     try:

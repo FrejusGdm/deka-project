@@ -33,6 +33,9 @@ PROVIDER_MODELS: Dict[str, List[str]] = {
     ],
     'deepl': [
         # DeepL doesn't have models, just the service
+    ],
+    'ghananlp': [
+        # GhanaNLP doesn't have models, just the service
     ]
 }
 
@@ -43,6 +46,7 @@ DEFAULT_MODELS: Dict[str, str] = {
     'google-gemini': 'gemini-2.0-flash-001',
     'google': None,  # No models for Google Translate
     'deepl': None,   # No models for DeepL
+    'ghananlp': None,  # No models for GhanaNLP
 }
 
 # Provider aliases for convenience
@@ -117,24 +121,38 @@ def get_default_model(provider: str) -> Optional[str]:
 def validate_provider_model(provider: str, model: str) -> bool:
     """
     Validate that a provider supports a specific model.
-    
+    Now uses permissive validation - warns about unknown models but allows them.
+
     Args:
         provider: Provider name
         model: Model name
-        
+
     Returns:
-        True if provider supports the model, False otherwise
+        Always True (let provider APIs validate)
     """
     if provider not in PROVIDER_MODELS:
-        return False
-    
+        print(f"⚠️  Warning: Unknown provider '{provider}', trying anyway...")
+        return True
+
     supported_models = PROVIDER_MODELS[provider]
-    
+
     # If provider doesn't use models (like Google Translate), any model is invalid
     if not supported_models:
-        return model is None
-    
-    return model in supported_models
+        if model is not None:
+            print(f"⚠️  Warning: Provider '{provider}' doesn't support model selection, ignoring model '{model}'")
+        return True
+
+    # Check if model is in our known list
+    if model not in supported_models:
+        # Suggest similar models
+        import difflib
+        suggestions = difflib.get_close_matches(model, supported_models, n=3, cutoff=0.6)
+        if suggestions:
+            print(f"⚠️  Warning: Model '{model}' not in known list for '{provider}'. Did you mean: {', '.join(suggestions)}? Trying anyway...")
+        else:
+            print(f"⚠️  Warning: Model '{model}' not in known list for '{provider}'. Known models: {', '.join(supported_models)}. Trying anyway...")
+
+    return True  # Always allow - let provider API validate
 
 
 def get_supported_models(provider: str) -> List[str]:

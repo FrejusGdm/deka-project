@@ -6,7 +6,7 @@ build-backend = "hatchling.build"
 name = "deka"
 version = "0.1.0"
 authors = [
-    {name = "Josue Godeme", email = "your.email@example.com"}
+    {name = "Josue Godeme", email = "gjf7075@gmail.com"}
 ]
 description = "A unified Python SDK for multiple translation providers"
 readme = "README.md"
@@ -45,6 +45,11 @@ dev = [
     "mypy>=0.950",
     "build>=0.8.0",
     "twine>=4.0.0",
+]
+docs = [
+    "mkdocs>=1.5.0",
+    "mkdocs-material>=9.0.0",
+    "mkdocstrings[python]>=0.20.0",
 ]
 
 [project.urls]

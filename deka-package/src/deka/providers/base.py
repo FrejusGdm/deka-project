@@ -28,13 +28,16 @@ class BaseProvider(ABC):
         self.api_key: Optional[str] = None
         self._session: Optional[aiohttp.ClientSession] = None
 
-        # Validate model if provider supports models
+        # Validate model if provider supports models (now permissive)
         if self.supported_models and self.model:
             if self.model not in self.supported_models:
-                raise ValueError(
-                    f"Model '{self.model}' not supported by {self.provider_name}. "
-                    f"Supported models: {', '.join(self.supported_models)}"
-                )
+                # Just warn, don't fail - let provider API validate
+                import difflib
+                suggestions = difflib.get_close_matches(self.model, self.supported_models, n=3, cutoff=0.6)
+                if suggestions:
+                    print(f"⚠️  Warning: Model '{self.model}' not in known list for {self.provider_name}. Did you mean: {', '.join(suggestions)}? Trying anyway...")
+                else:
+                    print(f"⚠️  Warning: Model '{self.model}' not in known list for {self.provider_name}. Known models: {', '.join(self.supported_models)}. Trying anyway...")
     
     @property
     @abstractmethod
