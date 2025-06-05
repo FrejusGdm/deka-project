@@ -1,3 +1,10 @@
+/*
+  COMMENTED OUT - ORIGINAL HERO DESIGN (LOVED BUT NOT PERFECT FOR SDK)
+  This is the beautiful API-flow hero that shows the translation routing concept.
+  Keeping it here because we love the design and might use it for API version later.
+*/
+
+/*
 "use client";
 
 import { motion } from "framer-motion";
@@ -7,71 +14,108 @@ import { Card } from "@/components/ui/card";
 import { ArrowRight, Zap, User, Globe } from "lucide-react";
 
 const providers = [
-  { 
-    name: "Google Translate", 
-    color: "bg-blue-50 border-blue-200", 
+  {
+    name: "Google Translate",
+    color: "bg-blue-50 border-blue-200",
     textColor: "text-blue-700",
-    latency: "120ms", 
-    cost: "$0.002",
+    latency: "120ms",
+    cost: "Fast & Reliable",
     result: "Bonjour, comment allez-vous ?"
   },
-  { 
-    name: "DeepL", 
-    color: "bg-indigo-50 border-indigo-200", 
-    textColor: "text-indigo-700",
-    latency: "180ms", 
-    cost: "$0.004",
+  {
+    name: "OpenAI GPT-4",
+    color: "bg-green-50 border-green-200",
+    textColor: "text-green-700",
+    latency: "1.9s",
+    cost: "High Quality",
     result: "Bonjour, comment vous portez-vous ?"
   },
-  { 
-    name: "Lelapa AI", 
-    color: "bg-green-50 border-green-200", 
-    textColor: "text-green-700",
-    latency: "250ms", 
-    cost: "$0.003",
-    result: "Salut, comment ça va ?"
+  {
+    name: "Anthropic Claude",
+    color: "bg-purple-50 border-purple-200",
+    textColor: "text-purple-700",
+    latency: "2.5s",
+    cost: "Nuanced",
+    result: "Bonjour, comment allez-vous aujourd\\'hui ?"
   },
-  { 
-    name: "Kaya AI", 
-    color: "bg-orange-50 border-orange-200", 
+  {
+    name: "GhanaNLP (Twi)",
+    color: "bg-orange-50 border-orange-200",
     textColor: "text-orange-700",
-    latency: "200ms", 
-    cost: "$0.003",
-    result: "Bonjour, comment vous sentez-vous ?"
+    latency: "680ms",
+    cost: "African Languages",
+    result: "Hello, wo ho te sɛn?"
   },
 ];
 
-export function HeroOptionC() {
-  const [inputText, setInputText] = useState("Hello, how are you?");
-  const [isTranslating, setIsTranslating] = useState(false);
-  const [showResults, setShowResults] = useState(false);
-  const [animationStep, setAnimationStep] = useState(0);
+export function HeroOptionC() {*/
 
-  const handleTranslate = () => {
-    setIsTranslating(true);
-    setShowResults(false);
-    setAnimationStep(0);
-    
-    // Animate the flow
-    setTimeout(() => setAnimationStep(1), 300);  // Input to Deka
-    setTimeout(() => setAnimationStep(2), 800);  // Deka to providers
-    setTimeout(() => setAnimationStep(3), 1300); // Show results
-    setTimeout(() => {
-      setIsTranslating(false);
-      setShowResults(true);
-    }, 1800);
-  };
+// NEW CODE-FIRST HERO FOR SDK
+"use client";
+
+import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
+import { Card } from "@/components/ui/card";
+import { ArrowRight, Terminal, CheckCircle, Github } from "lucide-react";
+
+const codeSteps = [
+  "$ pip install deka",
+  "",
+  "import deka",
+  "",
+  "# Configure with your API keys",
+  "deka.configure({",
+  "    'openai_api_key': 'your-key',",
+  "    'ghananlp_api_key': 'your-key'",
+  "})",
+  "",
+  "# Compare AI models vs African languages",
+  "comparison = deka.compare(",
+  "    'Hello, how are you?',",
+  "    'french',",
+  "    providers=['openai/gpt-4', 'ghananlp']",
+  ")",
+  "",
+  "# Get the best result",
+  "print(comparison.results[0].text)"
+];
+
+const results = [
+  {
+    provider: "OpenAI GPT-4",
+    result: "Bonjour, comment vous portez-vous ?",
+    speed: "1.9s",
+    icon: "🤖"
+  },
+  {
+    provider: "GhanaNLP (Twi)",
+    result: "Hello, wo ho te sɛn?",
+    speed: "680ms",
+    icon: "🌍"
+  }
+];
+
+export function HeroOptionC() {
+  const [currentStep, setCurrentStep] = useState(0);
+  const [showResults, setShowResults] = useState(false);
+  const [typingComplete, setTypingComplete] = useState(false);
 
   useEffect(() => {
-    // Auto-trigger translation on mount
-    setTimeout(() => {
-      handleTranslate();
-    }, 1000);
-  }, []);
+    if (currentStep < codeSteps.length) {
+      const timer = setTimeout(() => {
+        setCurrentStep(currentStep + 1);
+      }, currentStep === 0 ? 1000 : 150); // Slower start, then faster typing
+      return () => clearTimeout(timer);
+    } else if (!typingComplete) {
+      setTypingComplete(true);
+      setTimeout(() => setShowResults(true), 500);
+    }
+  }, [currentStep, typingComplete]);
 
   return (
     <section className="pt-24 pb-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
+        {/* Header */}
         <div className="text-center mb-16">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -80,224 +124,168 @@ export function HeroOptionC() {
             className="mb-6"
           >
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-6">
-              One API to{" "}
+              The Only Translation SDK{" "}
               <span className="text-black font-extrabold">
-                Rule Them All
+                You'll Ever Need
               </span>
             </h1>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Connect to Google, DeepL, and specialized African language providers through a single, 
-              unified translation API. Compare outputs, transparent pricing, open source.
+            <p className="text-xl text-gray-600 max-w-4xl mx-auto">
+              Install once with pip, then access Google Translate, GPT-4, Claude 3.5, Gemini, DeepL,
+              and 11 African languages through GhanaNLP. Compare quality and pick the best translation.
             </p>
           </motion.div>
         </div>
 
-        {/* Interactive Flow Diagram */}
+        {/* Code-First Demo */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="max-w-6xl mx-auto relative"
+          className="max-w-6xl mx-auto"
         >
-          {/* SVG for curved arrows - positioned absolutely */}
-          <svg
-            className="absolute inset-0 w-full h-full pointer-events-none z-0"
-            viewBox="0 0 1200 500"
-            preserveAspectRatio="xMidYMid meet"
-          >
-            {/* First curved arrow: Input to Deka */}
-            <motion.path
-              d="M 280 250 Q 420 180 580 250"
-              stroke="currentColor"
-              strokeWidth="3"
-              fill="none"
-              className="text-gray-300"
-              strokeDasharray="12,6"
-              initial={{ pathLength: 0, opacity: 0 }}
-              animate={{
-                pathLength: animationStep >= 1 ? 1 : 0,
-                opacity: animationStep >= 1 ? 1 : 0.3
-              }}
-              transition={{ duration: 1.2, delay: 0.3 }}
-            />
-            <motion.polygon
-              points="570,245 580,250 570,255"
-              fill="currentColor"
-              className="text-gray-400"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: animationStep >= 1 ? 1 : 0.3 }}
-              transition={{ delay: 1.2 }}
-            />
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
 
-            {/* Second curved arrow: Deka to Results */}
-            <motion.path
-              d="M 620 250 Q 760 320 920 250"
-              stroke="currentColor"
-              strokeWidth="3"
-              fill="none"
-              className="text-gray-300"
-              strokeDasharray="12,6"
-              initial={{ pathLength: 0, opacity: 0 }}
-              animate={{
-                pathLength: animationStep >= 2 ? 1 : 0,
-                opacity: animationStep >= 2 ? 1 : 0.3
-              }}
-              transition={{ duration: 1.2, delay: 0.5 }}
-            />
-            <motion.polygon
-              points="910,245 920,250 910,255"
-              fill="currentColor"
-              className="text-gray-400"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: animationStep >= 2 ? 1 : 0.3 }}
-              transition={{ delay: 1.4 }}
-            />
-          </svg>
-
-          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-
-            {/* User Input Section */}
-            <div className="lg:col-span-3">
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: 0.5 }}
-              >
-                <Card className="p-6 bg-white border-2 border-gray-200 shadow-lg hover:shadow-xl transition-shadow">
-                  <div className="flex items-center space-x-3 mb-4">
-                    <div className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center">
-                      <User className="w-5 h-5 text-gray-600" />
-                    </div>
-                    <h3 className="font-semibold text-gray-900">Your Input</h3>
+            {/* Left Side - Code Terminal */}
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.6 }}
+            >
+              <Card className="bg-gray-900 border-gray-700 overflow-hidden">
+                {/* Terminal Header */}
+                <div className="flex items-center space-x-2 px-4 py-3 bg-gray-800 border-b border-gray-700">
+                  <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                  <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                  <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                  <div className="flex items-center space-x-2 ml-4">
+                    <Terminal className="w-4 h-4 text-gray-400" />
+                    <span className="text-gray-400 text-sm">deka-demo.py</span>
                   </div>
+                </div>
 
-                  <Input
-                    value={inputText}
-                    onChange={(e) => setInputText(e.target.value)}
-                    placeholder="Enter text to translate..."
-                    className="mb-4 border-gray-200 focus:border-gray-400"
-                  />
-
-                  <button
-                    onClick={handleTranslate}
-                    disabled={isTranslating}
-                    className="w-full px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-800 disabled:opacity-50 transition-colors flex items-center justify-center space-x-2"
-                  >
-                    {isTranslating ? (
-                      <>
-                        <Zap className="w-4 h-4 animate-pulse" />
-                        <span>Processing...</span>
-                      </>
-                    ) : (
-                      <>
-                        <span>Translate</span>
-                        <ArrowRight className="w-4 h-4" />
-                      </>
-                    )}
-                  </button>
-                </Card>
-              </motion.div>
-            </div>
-
-            {/* Spacer for curved arrow */}
-            <div className="lg:col-span-2 hidden lg:block"></div>
-
-            {/* Deka API Center */}
-            <div className="lg:col-span-3">
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{
-                  opacity: 1,
-                  scale: animationStep >= 1 ? 1.05 : 1,
-                }}
-                transition={{ duration: 0.6, delay: 0.6 }}
-              >
-                <Card className="p-8 bg-gray-50 border-2 border-gray-300 shadow-lg hover:shadow-xl transition-shadow relative overflow-hidden">
-                  <div className="text-center">
-                    <div className="w-16 h-16 bg-black rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
-                      <Globe className="w-8 h-8 text-white" />
-                    </div>
-                    <h3 className="text-2xl font-bold text-gray-900 mb-2">Deka API</h3>
-                    <p className="text-gray-600 text-sm mb-4">Translation Meta-Router</p>
-
-                    {/* Processing indicators */}
-                    <div className="grid grid-cols-2 gap-2 text-xs">
-                      <div className="bg-white border border-gray-200 rounded px-2 py-1">
-                        <span className="text-gray-600 font-medium">Routing</span>
-                      </div>
-                      <div className="bg-white border border-gray-200 rounded px-2 py-1">
-                        <span className="text-gray-600 font-medium">Comparing</span>
-                      </div>
-                      <div className="bg-white border border-gray-200 rounded px-2 py-1">
-                        <span className="text-gray-600 font-medium">Optimizing</span>
-                      </div>
-                      <div className="bg-white border border-gray-200 rounded px-2 py-1">
-                        <span className="text-gray-600 font-medium">Aggregating</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Animated pulse effect */}
-                  {isTranslating && (
+                {/* Code Content */}
+                <div className="p-6 font-mono text-sm">
+                  {codeSteps.slice(0, currentStep).map((line, index) => (
                     <motion.div
-                      className="absolute inset-0 bg-gray-200 rounded-lg"
+                      key={index}
                       initial={{ opacity: 0 }}
-                      animate={{ opacity: [0, 0.1, 0] }}
-                      transition={{ duration: 1, repeat: Infinity }}
+                      animate={{ opacity: 1 }}
+                      transition={{ duration: 0.1 }}
+                      className={`${
+                        line.startsWith('#') ? 'text-gray-400' :
+                        line.startsWith('$') ? 'text-green-400' :
+                        line.includes('deka') ? 'text-blue-400' :
+                        line.includes("'") ? 'text-yellow-400' :
+                        'text-gray-300'
+                      } leading-relaxed`}
+                    >
+                      {line || '\u00A0'}
+                    </motion.div>
+                  ))}
+                  {currentStep < codeSteps.length && (
+                    <motion.div
+                      animate={{ opacity: [1, 0, 1] }}
+                      transition={{ duration: 0.8, repeat: Infinity }}
+                      className="inline-block w-2 h-5 bg-green-400"
                     />
                   )}
-                </Card>
-              </motion.div>
-            </div>
+                </div>
+              </Card>
+            </motion.div>
 
-            {/* Spacer for curved arrow */}
-            <div className="lg:col-span-1 hidden lg:block"></div>
-
-            {/* Provider Results */}
-            <div className="lg:col-span-3">
-              <div className="grid grid-cols-1 gap-4">
-                {providers.map((provider, index) => (
-                  <motion.div
-                    key={provider.name}
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{
-                      opacity: animationStep >= 3 ? 1 : 0.3,
-                      x: animationStep >= 3 ? 0 : 20
-                    }}
-                    transition={{ duration: 0.4, delay: 0.1 * index }}
-                  >
-                    <Card className="p-4 bg-white border-2 border-gray-200 shadow-sm hover:shadow-md transition-all">
-                      <div className="space-y-3">
-                        <div className="flex items-center justify-between">
-                          <h4 className="font-medium text-gray-900">
-                            {provider.name}
-                          </h4>
-                          {showResults && (
-                            <span className="text-xs text-gray-600 bg-gray-100 px-2 py-1 rounded-full">
-                              ✓
-                            </span>
-                          )}
-                        </div>
-
-                        <div className="text-sm text-gray-700">
-                          {showResults ? provider.result : "Translating..."}
-                        </div>
-
-                        {showResults && (
-                          <div className="flex justify-between text-xs text-gray-500 pt-2 border-t border-gray-200">
-                            <span>⚡ {provider.latency}</span>
-                            <span>💰 {provider.cost}</span>
-                          </div>
-                        )}
-                      </div>
-                    </Card>
-                  </motion.div>
-                ))}
+            {/* Right Side - Results */}
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.8 }}
+              className="space-y-4"
+            >
+              <div className="text-center mb-6">
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                  Translation Results
+                </h3>
+                <p className="text-gray-600">
+                  Compare quality across providers instantly
+                </p>
               </div>
-            </div>
+
+              {results.map((result, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{
+                    opacity: showResults ? 1 : 0.3,
+                    y: showResults ? 0 : 20
+                  }}
+                  transition={{ duration: 0.4, delay: showResults ? index * 0.1 : 0 }}
+                >
+                  <Card className="p-4 bg-white border-2 border-gray-200 hover:border-gray-300 transition-all">
+                    <div className="flex items-start justify-between mb-3">
+                      <div className="flex items-center space-x-3">
+                        <span className="text-2xl">{result.icon}</span>
+                        <div>
+                          <h4 className="font-medium text-gray-900">
+                            {result.provider}
+                          </h4>
+                          <span className="text-xs text-gray-500">
+                            ⚡ {result.speed}
+                          </span>
+                        </div>
+                      </div>
+                      {showResults && (
+                        <CheckCircle className="w-5 h-5 text-green-500" />
+                      )}
+                    </div>
+
+                    <div className="text-gray-700 font-medium">
+                      "{result.result}"
+                    </div>
+                  </Card>
+                </motion.div>
+              ))}
+            </motion.div>
           </div>
+        </motion.div>
+
+        {/* CTA Buttons */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 1.2 }}
+          className="text-center mt-12"
+        >
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <a
+              href="https://pypi.org/project/deka/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center space-x-2 bg-black text-white px-8 py-4 rounded-lg font-medium hover:bg-gray-800 transition-colors text-lg"
+            >
+              <Terminal className="w-5 h-5" />
+              <span>pip install deka</span>
+            </a>
+            <a
+              href="https://github.com/FrejusGdm/deka-project"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center space-x-2 bg-white border-2 border-gray-300 text-gray-900 px-8 py-4 rounded-lg font-medium hover:bg-gray-50 transition-colors text-lg"
+            >
+              <Github className="w-5 h-5" />
+              <span>View on GitHub</span>
+            </a>
+          </div>
+
+          <p className="text-gray-500 mt-4 text-sm">
+            ✅ Live on PyPI • 🎯 6 Providers • 🌍 15+ Models • 🚀 African Languages
+          </p>
         </motion.div>
       </div>
     </section>
   );
 }
+
+/*
+  END OF COMMENTED OUT ORIGINAL HERO
+  The original hero code was here - beautiful API flow design that we loved!
+  It's preserved above in case we want to use it for an API version later.
+*/

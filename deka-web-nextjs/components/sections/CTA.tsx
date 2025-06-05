@@ -22,8 +22,8 @@ export function CTA() {
             </span>
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Join the open source community building the future of translation APIs. 
-            Start translating in minutes, not hours.
+            Deka is live on PyPI! Install the Python SDK and start translating with
+            model selection and African language support in minutes.
           </p>
         </motion.div>
 
@@ -36,7 +36,7 @@ export function CTA() {
             viewport={{ once: true }}
           >
             <Link
-              href="https://github.com/your-username/deka"
+              href="https://github.com/FrejusGdm/deka-project"
               target="_blank"
               rel="noopener noreferrer"
               className="group block"
@@ -48,8 +48,8 @@ export function CTA() {
                 </div>
                 
                 <p className="text-gray-300 mb-6 leading-relaxed">
-                  Explore the source code, contribute to the project, and help us build 
-                  the best translation API for everyone.
+                  Explore the source code, contribute to the project, and help us improve
+                  the most advanced translation SDK for Python.
                 </p>
 
                 <div className="flex items-center justify-between">
@@ -75,25 +75,27 @@ export function CTA() {
             viewport={{ once: true }}
           >
             <Link
-              href="/docs/getting-started"
+              href="https://pypi.org/project/deka/"
+              target="_blank"
+              rel="noopener noreferrer"
               className="group block"
             >
               <div className="bg-blue-50 border-2 border-blue-200 rounded-2xl p-8 hover:border-blue-300 transition-colors h-full">
                 <div className="flex items-center space-x-3 mb-4">
                   <BookOpen className="w-8 h-8 text-blue-600" />
-                  <h3 className="text-2xl font-bold text-gray-900">Read the Docs</h3>
+                  <h3 className="text-2xl font-bold text-gray-900">Install from PyPI</h3>
                 </div>
-                
+
                 <p className="text-gray-600 mb-6 leading-relaxed">
-                  Get started with our comprehensive documentation, API reference, 
-                  and step-by-step integration guides.
+                  Get started immediately with pip install deka. Complete with model selection,
+                  African language support, and async capabilities.
                 </p>
 
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-4 text-sm text-gray-500">
-                    <div>Quick Start</div>
-                    <div>API Reference</div>
-                    <div>Examples</div>
+                    <div>pip install</div>
+                    <div>6 Providers</div>
+                    <div>15+ Models</div>
                   </div>
                   
                   <ArrowRight className="w-5 h-5 text-blue-600 group-hover:translate-x-1 transition-transform" />
@@ -116,7 +118,7 @@ export function CTA() {
               Get started in seconds
             </h3>
             <p className="text-gray-600">
-              Simple REST API that works with any programming language
+              Simple Python SDK with model selection and African language support
             </p>
           </div>
 
@@ -129,15 +131,21 @@ export function CTA() {
             </div>
             
             <pre className="text-green-400 text-sm font-mono leading-relaxed">
-{`curl -X POST https://api.deka.dev/translate \\
-  -H "Authorization: Bearer YOUR_API_KEY" \\
-  -H "Content-Type: application/json" \\
-  -d '{
-    "text": "Hello, world!",
-    "source": "en",
-    "target": "yo",
-    "provider": "auto"
-  }'`}
+{`# Install Deka
+pip install deka
+
+# Import and configure
+import deka
+deka.configure({'openai_api_key': 'your-key'})
+
+# Model selection
+result = deka.translate("Hello", "twi", provider="ghananlp")
+print(result.text)  # "Hello na ɔkyerɛwee"
+
+# Compare providers
+comparison = deka.compare("Hello", "french", providers=[
+    "google", "openai/gpt-4", "anthropic/claude-3-5-sonnet"
+])`}
             </pre>
           </div>
         </motion.div>
@@ -150,12 +158,12 @@ export function CTA() {
           viewport={{ once: true }}
           className="mt-16 text-center"
         >
-          <p className="text-gray-500 mb-4">Trusted by developers worldwide</p>
+          <p className="text-gray-500 mb-4">Available on PyPI right now</p>
           <div className="flex justify-center items-center space-x-8 text-sm text-gray-400">
-            <div>🌟 Open Source</div>
-            <div>🚀 Fast & Reliable</div>
-            <div>🌍 Global Community</div>
-            <div>💰 Fair Pricing</div>
+            <div>🎯 Model Selection</div>
+            <div>🌍 African Languages</div>
+            <div>⚡ Async Support</div>
+            <div>🔄 Provider Comparison</div>
           </div>
         </motion.div>
       </div>

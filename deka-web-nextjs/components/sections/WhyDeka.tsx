@@ -2,101 +2,115 @@
 
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { Zap, DollarSign, Globe, Code, ArrowRight } from "lucide-react";
+import { Zap, Target, Globe, Code, ArrowRight } from "lucide-react";
 
 const benefits = [
   {
-    id: "unified-api",
-    icon: Code,
-    title: "One API Instead of Many",
-    subtitle: "No more API chaos",
-    description: "Stop juggling multiple APIs, documentation, and authentication methods. Deka provides a single, unified interface to access all major translation providers.",
+    id: "model-selection",
+    icon: Target,
+    title: "AI Model Selection",
+    subtitle: "Choose specific models",
+    description: "First translation SDK with AI model selection. Choose GPT-4 for quality, Claude 3.5 Sonnet for nuance, or Gemini 2.0 Flash for speed. Optimize for your exact needs.",
     features: [
-      "Single REST endpoint for all providers",
-      "Unified authentication system",
-      "Consistent response format",
-      "No need to read multiple docs"
+      "15+ AI models available",
+      "OpenAI, Anthropic, Gemini support",
+      "Speed vs quality optimization",
+      "Future-proof model validation"
     ],
-    codeExample: `// Before: Multiple APIs
-const googleResult = await google.translate(text);
-const deeplResult = await deepl.translate(text);
-const lelapaResult = await lelapa.translate(text);
+    codeExample: `// Choose specific AI models
+import deka
 
-// After: One API
-const results = await deka.translate({
-  text: "Hello world",
-  providers: ["google", "deepl", "lelapa"]
-});`
+// High quality with GPT-4
+result = deka.translate("Hello", "french", provider="openai/gpt-4")
+
+// Fast with Claude Haiku
+result = deka.translate("Hello", "spanish", provider="anthropic/claude-3-haiku")
+
+// Latest with Gemini 2.0
+result = deka.translate("Hello", "german", provider="google-gemini/gemini-2.0-flash")`
   },
   {
     id: "african-languages",
     icon: Globe,
-    title: "Specialized in Niche Languages",
-    subtitle: "African languages included",
-    description: "Access African language providers like Lelapa AI and Kaya AI alongside global giants. Perfect for Yoruba, Zulu, Hausa, and other underserved languages.",
+    title: "African Language Support",
+    subtitle: "11 African languages ready",
+    description: "Dedicated GhanaNLP integration provides authentic translations for Ghanaian and African languages. Real translations tested and working for Twi, Ga, Ewe, Yoruba, and more.",
     features: [
-      "50+ African languages supported",
-      "Native provider integrations",
-      "Cultural context preservation",
-      "Regional dialect support"
+      "11 African languages supported",
+      "GhanaNLP provider integration",
+      "Authentic cultural translations",
+      "Ghanaian language specialization"
     ],
-    codeExample: `// Translate to African languages
-const result = await deka.translate({
-  text: "Welcome to our platform",
-  source: "en",
-  target: "yo", // Yoruba
-  provider: "lelapa"
-});
+    codeExample: `# Real African language translations
+import deka
+deka.configure({'ghananlp_api_key': 'your-key'})
 
-// Result: "Ẹ ku abọ si pẹpẹ wa"`
+# Twi (Ghana)
+result = deka.translate("Thank you", "twi", provider="ghananlp")
+print(result.text)  # "Meda wo ase"
+
+# Yoruba (Nigeria)
+result = deka.translate("Good morning", "yoruba", provider="ghananlp")
+print(result.text)  # "Ẹ káàárọ̀"`
   },
   {
-    id: "transparent-pricing",
-    icon: DollarSign,
-    title: "Fair & Transparent Pricing",
-    subtitle: "Provider cost + 10%",
-    description: "Simple pricing model: provider cost + 10%. No hidden fees, no markup surprises. You pay exactly what you use with full cost transparency.",
+    id: "unified-api",
+    icon: Code,
+    title: "Unified Python SDK",
+    subtitle: "One interface for all providers",
+    description: "Single Python SDK for 6 translation providers. No more juggling multiple APIs, authentication methods, and documentation. Install once, use everywhere.",
     features: [
-      "Real-time cost calculation",
-      "Per-character pricing",
-      "No hidden fees or markups",
-      "Prepaid wallet system"
+      "6 providers: Google, DeepL, OpenAI, Anthropic, Gemini, GhanaNLP",
+      "Unified authentication system",
+      "Consistent response format",
+      "Available on PyPI right now"
     ],
-    codeExample: `{
-  "text": "Hello world",
-  "characters": 11,
-  "provider_cost": "$0.0011",
-  "deka_fee": "$0.0001",
-  "total_cost": "$0.0012",
-  "wallet_balance": "$24.9988"
-}`
+    codeExample: `# One SDK, multiple providers
+import deka
+
+# Configure once
+deka.configure({
+    'openai_api_key': 'your-key',
+    'ghananlp_api_key': 'your-key'
+})
+
+# Use any provider
+result = deka.translate("Hello", "french", provider="google")
+result = deka.translate("Hello", "twi", provider="ghananlp")
+result = deka.translate("Hello", "spanish", provider="openai/gpt-4")`
   },
   {
     id: "comparison",
     icon: Zap,
-    title: "Compare Before You Choose",
-    subtitle: "Quality comparison built-in",
-    description: "See side-by-side results from multiple providers with latency and cost metrics. Make informed decisions about quality vs. speed vs. price.",
+    title: "Provider Comparison",
+    subtitle: "Compare quality and speed",
+    description: "Built-in comparison across providers and models. See side-by-side results with performance metrics. Choose the best translation for your needs.",
     features: [
-      "Side-by-side comparisons",
-      "Quality confidence scores",
-      "Latency and cost metrics",
-      "Best result recommendations"
+      "Multi-provider comparison",
+      "Model performance metrics",
+      "Response time tracking",
+      "Async concurrent execution"
     ],
-    codeExample: `// Compare multiple providers
-const comparison = await deka.compare({
-  text: "Hello world",
-  source: "en",
-  target: "fr",
-  providers: ["google", "deepl", "lelapa"]
-});
+    codeExample: `# Compare providers and models
+comparison = deka.compare("Hello world", "french", providers=[
+    "google",
+    "openai/gpt-4",
+    "anthropic/claude-3-5-sonnet",
+    "ghananlp"
+])
 
-// Returns results with metrics for each`
+for result in comparison.results:
+    model = result.metadata.get('model', 'default')
+    print(f"{result.provider} ({model}): {result.text}")
+    print(f"  Response time: {result.response_time_ms}ms")
+
+# Find fastest provider
+print(f"Fastest: {comparison.fastest_provider}")`
   },
 ];
 
 export function WhyDeka() {
-  const [activeTab, setActiveTab] = useState("unified-api");
+  const [activeTab, setActiveTab] = useState("model-selection");
   const activeBenefit = benefits.find(b => b.id === activeTab) || benefits[0];
 
   return (
@@ -116,8 +130,8 @@ export function WhyDeka() {
             </span>
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Translation shouldn&apos;t be complicated. We&apos;ve built the missing layer that makes
-            working with multiple translation providers simple, fair, and powerful.
+            Deka is live on PyPI! The most advanced Python translation SDK with model selection,
+            African language support, and provider comparison built-in.
           </p>
         </motion.div>
 
@@ -200,16 +214,16 @@ export function WhyDeka() {
           className="mt-20 grid grid-cols-1 sm:grid-cols-3 gap-8 text-center"
         >
           <div className="space-y-2">
-            <div className="text-3xl font-bold text-gray-900">5+</div>
+            <div className="text-3xl font-bold text-gray-900">6</div>
             <div className="text-gray-600">Translation Providers</div>
           </div>
           <div className="space-y-2">
-            <div className="text-3xl font-bold text-gray-900">50+</div>
-            <div className="text-gray-600">Supported Languages</div>
+            <div className="text-3xl font-bold text-gray-900">15+</div>
+            <div className="text-gray-600">AI Models Available</div>
           </div>
           <div className="space-y-2">
-            <div className="text-3xl font-bold text-gray-900">100%</div>
-            <div className="text-gray-600">Open Source</div>
+            <div className="text-3xl font-bold text-gray-900">11</div>
+            <div className="text-gray-600">African Languages</div>
           </div>
         </motion.div>
       </div>

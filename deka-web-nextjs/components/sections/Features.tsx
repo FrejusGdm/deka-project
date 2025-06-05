@@ -4,35 +4,36 @@ import { motion } from "framer-motion";
 import { Card } from "@/components/ui/card";
 import {
   Code,
-  DollarSign,
+  Target,
   Globe,
+  Zap,
   Github
 } from "lucide-react";
 
 const buildingFeatures = [
   {
-    icon: Code,
-    title: "One API, Many Providers",
-    description: "Stop juggling multiple APIs, authentication methods, and documentation. Access Google, DeepL, and African language providers through a single, unified interface.",
-    status: "In Development"
-  },
-  {
-    icon: DollarSign,
-    title: "Fair Pricing",
-    description: "Simple, transparent pricing model: provider cost + 10%. No hidden fees, no markup surprises. You pay exactly what the translation costs, plus a small service fee.",
-    status: "In Development"
+    icon: Target,
+    title: "Model Selection",
+    description: "First translation SDK with AI model selection. Choose specific models like GPT-4, Claude 3.5 Sonnet, or Gemini 2.0 Flash. Optimize for speed, quality, or cost.",
+    status: "✅ Live"
   },
   {
     icon: Globe,
-    title: "Under-resourced Languages",
-    description: "First-class support for underserved languages, especially African languages through providers like Lelapa AI and Kaya AI. Every language deserves great translation.",
-    status: "In Development"
+    title: "African Languages",
+    description: "Dedicated support for 11 African languages via GhanaNLP integration. Authentic translations for Twi, Ga, Ewe, Yoruba, Kikuyu, and more Ghanaian and African languages.",
+    status: "✅ Live"
   },
   {
-    icon: Github,
-    title: "Open Source",
-    description: "Community-driven, transparent development. Built in the open with contributions welcome. No vendor lock-in, no black boxes - just honest, open translation infrastructure.",
-    status: "Coming Soon"
+    icon: Code,
+    title: "6 Providers Ready",
+    description: "Google Translate, DeepL, OpenAI (5 models), Anthropic (5 models), Google Gemini (5 models), and GhanaNLP. All through a single, unified Python interface.",
+    status: "✅ Live"
+  },
+  {
+    icon: Zap,
+    title: "Future-Proof Design",
+    description: "Permissive model validation means you can try new models as soon as providers release them. No waiting for SDK updates - just use the latest models immediately.",
+    status: "✅ Live"
   }
 ];
 
@@ -48,14 +49,14 @@ export function Features() {
           className="text-center mb-16"
         >
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
-            What We&apos;re{" "}
+            What We&apos;ve{" "}
             <span className="text-black font-extrabold">
-              Building
+              Built
             </span>
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            We&apos;re creating the missing layer for translation APIs. Here&apos;s what we&apos;re working on
-            to make multilingual development simple and fair.
+            Deka is live on PyPI! Here&apos;s what you can use right now to make
+            multilingual development simple and powerful.
           </p>
         </motion.div>
 
@@ -110,21 +111,26 @@ export function Features() {
         >
           <div className="bg-gray-50 border-2 border-gray-200 rounded-2xl p-8">
             <h3 className="text-2xl font-bold text-gray-900 mb-4">
-              Want to follow our progress?
+              Ready to get started?
             </h3>
             <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
-              We&apos;re building in the open. Star our repository to get updates on development,
-              contribute ideas, or just follow along as we create the future of translation APIs.
+              Deka is available on PyPI right now. Install it, configure your API keys,
+              and start translating with model selection and African language support.
             </p>
-            <a
-              href="https://github.com/yourusername/deka"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center space-x-2 bg-black text-white px-6 py-3 rounded-lg font-medium hover:bg-gray-800 transition-colors"
-            >
-              <Github className="w-5 h-5" />
-              <span>Follow on GitHub</span>
-            </a>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <div className="bg-black text-white px-6 py-3 rounded-lg font-mono text-sm">
+                pip install deka
+              </div>
+              <a
+                href="https://github.com/FrejusGdm/deka-project"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center space-x-2 bg-white border-2 border-gray-300 text-gray-900 px-6 py-3 rounded-lg font-medium hover:bg-gray-50 transition-colors"
+              >
+                <Github className="w-5 h-5" />
+                <span>View on GitHub</span>
+              </a>
+            </div>
           </div>
         </motion.div>
       </div>
